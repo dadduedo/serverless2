@@ -24,7 +24,6 @@ package:
     - README.md
 
 plugins:
-  - serverless-offline-sqs
   - serverless-offline
   - serverless-s3-local
 
@@ -33,19 +32,6 @@ functions:
     name: ${self:service}-entrypoint
     handler: handler.entrypoint
     timeout: 30
-    events:
-      - sqs:
-          arn: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-arn}
-          batchSize: 1
-
-  zipcode-index:
-    name: ${self:service}-entrypoint_zipcode
-    handler: handler.indexGenerator_EntryPoint_Stats
-    timeout: 30
-    events:
-      - sqs:
-          arn: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-zipcode-index-arn}
-          batchSize: 1
 
 custom:
   serverless-offline:
@@ -56,11 +42,3 @@ custom:
     directory: /data/buckets/${self:service}
     address: 0.0.0.0
 
-  serverless-offline-sqs:
-    autoCreate: true
-    apiVersion: '2012-11-05'
-    endpoint: http://sqs:9324
-    region: ${self:provider.region}
-    accessKeyId: root
-    secretAccessKey: root
-    skipCacheInvalidation: false
