@@ -1,0 +1,9 @@
+queue-entrypoint-url: http://sqs:9324/queue/${self:service}-entrypoint
+queue-entrypoint-arn: arn:aws:sqs:${self:provider.region}:*:${self:service}-entrypoint
+
+queue-entrypoint-zipcode-index-url: http://sqs:9324/queue/${self:service}-entrypoint-zipcode-index
+queue-entrypoint-zipcode-index-arn: arn:aws:sqs:${self:provider.region}:*:${self:service}-entrypoint-zipcode-index
+
+mysql-dsn: mysql://root:root@docker-services-mysql-1/vlms
+zipcode-bucket: zipcode-enabled
+cf-distribution-id: xxx

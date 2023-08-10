@@ -1,0 +1,28 @@
+{
+  "name": "zipcodegenerator",
+  "version": "1.0.0",
+  "description": "Lambda functions to create metrics in elasticsearch",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "remove-stage": "serverless remove --stage stage",
+    "deploy-stage": "serverless deploy --stage stage",
+    "remove-prod": "serverless remove --stage production",
+    "deploy-prod": "serverless deploy --stage production",
+    "invoke": "serverless invoke local",
+    "dev": "serverless offline start",
+    "function": "serverless invoke local --function"
+  },
+  "keywords": [],
+  "author": "David Foliti",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^3.22.0",
+    "serverless-offline": "^11.0.1",
+    "serverless-offline-sqs": "^7.3.1",
+    "serverless-s3-local": "^0.7.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1228.0",
+    "serverless-mysql": "^1.5.5"
+  }
+}

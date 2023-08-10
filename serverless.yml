@@ -1,0 +1,66 @@
+service: zipcode-enabled
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  memorySize: 128
+  timeout: 10
+  environment:
+    REGION: ${self:provider.region}
+    STAGE: ${self:provider.stage}
+    QUEUE_ENTRYPOINT_STATS_URL: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-zipcode-index-url}
+    MYSQL_DSN: ${file(./serverless.${self:provider.stage}.yml):mysql-dsn}
+    ZIP_CODE_BUCKET: ${file(./serverless.${self:provider.stage}.yml):zipcode-bucket}
+    DISTRIBUTION_ID: ${file(./serverless.${self:provider.stage}.yml):cf-distribution-id}
+
+package:
+  exclude:
+    - data/**
+    - docker/**
+    - package.json
+    - package-lock.json
+    - README.md
+
+plugins:
+  - serverless-offline-sqs
+  - serverless-offline
+  - serverless-s3-local
+
+functions:
+  entrypoint:
+    name: ${self:service}-entrypoint
+    handler: handler.entrypoint
+    timeout: 30
+    events:
+      - sqs:
+          arn: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-arn}
+          batchSize: 1
+
+  zipcode-index:
+    name: ${self:service}-entrypoint_zipcode
+    handler: handler.indexGenerator_EntryPoint_Stats
+    timeout: 30
+    events:
+      - sqs:
+          arn: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-zipcode-index-arn}
+          batchSize: 1
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0
+    useChildProcesses: true
+  s3:
+    host: localhost
+    directory: /data/buckets/${self:service}
+    address: 0.0.0.0
+
+  serverless-offline-sqs:
+    autoCreate: true
+    apiVersion: '2012-11-05'
+    endpoint: http://sqs:9324
+    region: ${self:provider.region}
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
