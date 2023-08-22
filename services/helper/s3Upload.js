@@ -3,7 +3,7 @@ const S3 = require('../clients/aws').s3;
 
 module.exports = async (body,provinceName) => {
     const params = {
-        Bucket: process.env.ZIP_CODE_BUCKET,
+        Bucket: process.env.CAP_BUCKET,
         Key: provinceName,
         ContentType: 'application/json',
         Body: body

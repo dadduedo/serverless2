@@ -1,7 +1,7 @@
 queue-entrypoint-url: ${cf:${self:service}-infra.QueueEntrypointUrl}
 queue-entrypoint-arn: ${cf:${self:service}-infra.QueueEntrypointArn}
 
-queue-zipcode-index-url: ${cf:${self:service}-infra.QueueStatsIndexUrl}
-queue-zipcode-index-arn: ${cf:${self:service}-infra.QueueStatsIndexArn}
+queue-cap-index-url: ${cf:${self:service}-infra.QueueStatsIndexUrl}
+queue-cap-index-arn: ${cf:${self:service}-infra.QueueStatsIndexArn}
 
 elasticsearch-host: ''

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker exec -ti $(docker ps | grep zipcode-enabled-serverless | awk '{print $1}') npm run function $@
+docker exec -ti $(docker ps | grep caplist-serverless | awk '{print $1}') npm run function $@

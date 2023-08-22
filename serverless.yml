@@ -1,4 +1,4 @@
-service: zipcode-enabled
+service: caplist
 
 provider:
   name: aws
@@ -10,9 +10,9 @@ provider:
   environment:
     REGION: ${self:provider.region}
     STAGE: ${self:provider.stage}
-    QUEUE_ENTRYPOINT_STATS_URL: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-zipcode-index-url}
+    QUEUE_ENTRYPOINT_STATS_URL: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-cap-index-url}
     MYSQL_DSN: ${file(./serverless.${self:provider.stage}.yml):mysql-dsn}
-    ZIP_CODE_BUCKET: ${file(./serverless.${self:provider.stage}.yml):zipcode-bucket}
+    CAP_BUCKET: ${file(./serverless.${self:provider.stage}.yml):cap-bucket}
     DISTRIBUTION_ID: ${file(./serverless.${self:provider.stage}.yml):cf-distribution-id}
 
 package:
