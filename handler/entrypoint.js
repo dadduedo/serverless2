@@ -10,15 +10,24 @@ module.exports = async (event) => {
     const provincesByRegion = {};
     let jsontosend = {};
     const arrayRegions = [];
-    const jsonProvinces = {}
+    const jsonProvinces = {};
     let currentProvince = "";
-
-    for (const result of results) {        
+    var invalidationArray = [];
+    for (const result of results) {   
+            
         // Verify change of province
         if (currentProvince !== result.province) {
-            await s3Upload(JSON.stringify(jsontosend), currentProvince);
-            currentProvince = result.province;
-            jsontosend = {};
+            if (currentProvince == ""){
+                currentProvince = result.province;
+                jsontosend = {};
+            }
+            else{
+                await s3Upload(JSON.stringify(jsontosend), currentProvince + ".json");
+                invalidationArray.push(currentProvince + ".json")
+                currentProvince = result.province;
+                jsontosend = {};
+            }
+            
         }
         // Creating the json for each province
         jsontosend[result.zip_code] = `${result.zip_code} - ${result.town}`;
@@ -36,7 +45,7 @@ module.exports = async (event) => {
     }
     // If which is used to create the last province because the first loop cannot cover it
     if (Object.keys(jsontosend).length > 0) {
-        await s3Upload(JSON.stringify(jsontosend), currentProvince);
+        await s3Upload(JSON.stringify(jsontosend), currentProvince + ".json");
     }
     // Loop that fills the two regions json, loop only on the regions to laugh the loops
     for (const regionName in provincesByRegion) {
@@ -46,10 +55,13 @@ module.exports = async (event) => {
         };
         arrayRegions.push(region);
     }
-    await s3Upload(JSON.stringify(arrayRegions), "regions");
-    await s3Upload(JSON.stringify(jsonProvinces), "provinces");
+    invalidationArray.push('regions.json')
+    invalidationArray.push('provinces.json')
+    await s3Upload(JSON.stringify(arrayRegions), 'regions.json');
+    await s3Upload(JSON.stringify(jsonProvinces), 'provinces.json');
+    
     if (process.env.STAGE !== 'dev') {
-            await cloudFrontInvalidation(process.env.CAP_BUCKET);  
+            await cloudFrontInvalidation(invalidationArray);  
     }
     return "Created files for provinces and regions";
 };
