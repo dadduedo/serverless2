@@ -1,9 +1,0 @@
-queue-entrypoint-url: http://sqs:9324/queue/${self:service}-entrypoint
-queue-entrypoint-arn: arn:aws:sqs:${self:provider.region}:*:${self:service}-entrypoint
-
-queue-entrypoint-cap-index-url: http://sqs:9324/queue/${self:service}-entrypoint-cap-index
-queue-entrypoint-cap-index-arn: arn:aws:sqs:${self:provider.region}:*:${self:service}-entrypoint-cap-index
-
-mysql-dsn: mysql://root:root@docker-services-mysql-1/vlms
-cap-bucket: caplist
-cf-distribution-id: xxx

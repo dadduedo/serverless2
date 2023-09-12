@@ -13,8 +13,3 @@ module.exports.s3 = new AWS.S3(process.env.STAGE === 'dev'
     }
     : {}
 );
-
-module.exports.sqs = new AWS.SQS(process.env.STAGE === 'dev'
-    ? { endpoint: new AWS.Endpoint(process.env.SQS_ENDPOINT) }
-    : {}
-);

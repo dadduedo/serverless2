@@ -1,0 +1,31 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7.21
+    expose:
+      - "3306"
+    ports:
+      - "714:3306"
+    networks:
+      - verisure
+
+  app:
+    image: node:18
+    container_name: caplist-serverless
+    volumes:
+      - ./src:/projects
+      - ./src/data/buckets:/data/buckets/caplist
+    working_dir: /projects/caplist
+    ports:
+      - "760:3000"
+      - "745:4569"
+    networks:
+      - verisure
+    command:
+      - npm
+      - run
+      - dev
+      
+networks:
+  verisure:
+    external: true

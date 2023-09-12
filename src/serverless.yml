@@ -10,7 +10,6 @@ provider:
   environment:
     REGION: ${self:provider.region}
     STAGE: ${self:provider.stage}
-    QUEUE_ENTRYPOINT_STATS_URL: ${file(./serverless.${self:provider.stage}.yml):queue-entrypoint-cap-index-url}
     MYSQL_DSN: ${file(./serverless.${self:provider.stage}.yml):mysql-dsn}
     CAP_BUCKET: ${file(./serverless.${self:provider.stage}.yml):cap-bucket}
     DISTRIBUTION_ID: ${file(./serverless.${self:provider.stage}.yml):cf-distribution-id}
@@ -26,6 +25,7 @@ package:
 plugins:
   - serverless-offline
   - serverless-s3-local
+  - serverless-dotenv-plugin
 
 functions:
   entrypoint:

@@ -6,7 +6,6 @@ module.exports = async (event) => {
     const results = await mysql.query('SELECT zip_code, town, province, region, city FROM area ORDER BY province');
     await mysql.end();
     mysql.quit();
-
     const provincesByRegion = {};
     let jsontosend = {};
     const arrayRegions = [];
@@ -59,7 +58,6 @@ module.exports = async (event) => {
     invalidationArray.push('provinces.json')
     await s3Upload(JSON.stringify(arrayRegions), 'regions.json');
     await s3Upload(JSON.stringify(jsonProvinces), 'provinces.json');
-    
     if (process.env.STAGE !== 'dev') {
             await cloudFrontInvalidation(invalidationArray);  
     }

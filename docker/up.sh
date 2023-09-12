@@ -3,8 +3,8 @@
 ABSOLUTE_PROJECT_PATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.."
 
 docker run -d --rm \
-    -v ${ABSOLUTE_PROJECT_PATH}:/projects/caplist \
-    -v ${ABSOLUTE_PROJECT_PATH}/data/buckets:/data/buckets/caplist \
+    -v ${ABSOLUTE_PROJECT_PATH}/src:/projects/caplist/ \
+    -v ${ABSOLUTE_PROJECT_PATH}src/data/buckets:/data/buckets/caplist \
     -e AWS_ACCESS_KEY_ID=S3RVER \
     -e AWS_SECRET_ACCESS_KEY=S3RVER \
     -e SQS_ENDPOINT=http://sqs:9324 \

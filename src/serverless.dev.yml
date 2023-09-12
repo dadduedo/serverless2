@@ -1,0 +1,4 @@
+
+mysql-dsn: mysql://root:root@docker-services-mysql-1/vlms
+cap-bucket: caplist
+cf-distribution-id: xxx
