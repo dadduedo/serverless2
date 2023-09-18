@@ -1,14 +1,5 @@
 version: '3'
 services:
-  mysql:
-    image: mysql:5.7.21
-    expose:
-      - "3306"
-    ports:
-      - "714:3306"
-    networks:
-      - verisure
-
   app:
     image: node:18
     container_name: caplist-serverless
@@ -21,10 +12,7 @@ services:
       - "745:4569"
     networks:
       - verisure
-    command:
-      - npm
-      - run
-      - dev
+    command: sh -c "if [ ! -d /projects/node_modules ]; then npm install; fi && npm run dev"
       
 networks:
   verisure:
